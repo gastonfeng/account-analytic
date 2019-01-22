@@ -54,7 +54,7 @@
     "license": "AGPL-3",
     "depends": ["analytic_secondaxis_timesheet",
                 "project",
-                "project_timesheet",
+                "hr_timesheet",
                 ],
     "init_xml": ["security/ir.model.access.csv"],
     "demo_xml": [],

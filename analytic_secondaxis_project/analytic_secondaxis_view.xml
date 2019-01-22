@@ -54,7 +54,7 @@
                 <field name="inherit_id" ref="project.view_task_form2"/>
                 <field name="type">form</field>
                 <field name="arch" type="xml">
-                    <xpath expr="/form/notebook/page[@string='Information']/field[@name='work_ids']" position="replace">
+                    <xpath expr="/form/notebook/page[@name='Information']/field[@name='work_ids']" position="replace">
                         <field colspan="4" name="work_ids" nolabel="1" attrs="{'invisible':[('state','in',['draft'])],'readonly':[('state','=','done')]}" >
                             <tree string="Task Work" editable="top">
                                 <field name="name" />

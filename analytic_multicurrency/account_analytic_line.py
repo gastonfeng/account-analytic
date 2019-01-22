@@ -68,13 +68,7 @@ class account_analytic_line(orm.Model):
     # analytic line.
     # The company_id of analytic line is always related to the company
     # of the general account linked on the line
-    _columns = {
-        'aa_currency_id': fields.function(
-            _get_account_currency,
-            type='many2one',
-            relation='res.currency',
-            string='Analytic Account currency',
-            store={
+    aa_currency_id= fields.Many2one(compute=           '_get_account_currency',            type='many2one',            relation='res.currency',            string='Analytic Account currency',            store={
                 'account.analytic.account': (_get_account_line,
                                              ['currency_id', 'company_id'],
                                              50),
@@ -85,12 +79,8 @@ class account_analytic_line(orm.Model):
                                            'product_uom_id'],
                                           10),
             },
-            help="The related analytic account currency."),
-        'aa_amount_currency': fields.function(
-            _amount_currency,
-            string='Analytic Amount currency',
-            digits_compute=dp.get_precision('Account'),
-            store={
+            help="The related analytic account currency.")
+    aa_amount_currency= fields.Float(compute=            '_amount_currency',            string='Analytic Amount currency',            digits_compute=dp.get_precision('Account'),            store={
                 'account.analytic.account': (_get_account_line,
                                              ['currency_id', 'company_id'],
                                              50),
@@ -102,16 +92,9 @@ class account_analytic_line(orm.Model):
                                           10),
             },
             help="The amount expressed in the related analytic account "
-                 "currency."),
-        'company_id': fields.related(
-            'general_account_id',
-            'company_id',
-            type='many2one',
-            relation='res.company',
-            string='Company',
-            store=True,
-            readonly=True),
-    }
+                 "currency.")
+    company_id= fields.Many2one(related=            'general_account_id.company_id',            type='many2one',            relation='res.company',            string='Company',            store=True,            readonly=True)
+
 
     def on_change_unit_amount(self, cr, uid, ids, prod_id, quantity,
                               company_id, unit=False, journal_id=False,

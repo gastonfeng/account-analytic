@@ -38,7 +38,7 @@ import decimal_precision as dp
 ##########################################################################
 
 
-class project_activity_al(osv.osv):
+class project_activity_al(models.Model):
 
     """Class that inhertis osv.osv and add 2nd analytic axe to account analytic
     lines. The _name is kept for previous version compatibility

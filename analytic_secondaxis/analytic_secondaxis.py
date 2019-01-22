@@ -34,7 +34,7 @@ from osv import osv
 import decimal_precision as dp
 
 
-class project_activity_al(osv.osv):
+class project_activity_al(models.Model):
 
     """Class that inhertis osv.osv and add 2nd analytic axe to account analytic
     lines.
@@ -317,7 +317,7 @@ class project_activity_al(osv.osv):
     }
 
 
-class analytic_account(osv.osv):
+class analytic_account(models.Model):
     _inherit = "account.analytic.account"
 
     _columns = {
@@ -333,7 +333,7 @@ class analytic_account(osv.osv):
     }
 
 
-class account_analytic_line(osv.osv):
+class account_analytic_line(models.Model):
     _name = "account.analytic.line"
     _inherit = "account.analytic.line"
 

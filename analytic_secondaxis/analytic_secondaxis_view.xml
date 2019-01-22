@@ -123,10 +123,10 @@
             <field name="inherit_id" ref="account.view_account_analytic_line_filter" />
             <field name="type">search</field>
             <field name="arch" type="xml">
-                <xpath expr="/search/group[@string='Extended Filters...']/field[@name='product_id']" position="after">
+                <xpath expr="/search/group[@name='Extended Filters...']/field[@name='product_id']" position="after">
                     <field name="activity" />
                 </xpath>
-                <xpath expr="/search/group[@string='Group By...']/filter[@string='Account']" position="after">
+                <xpath expr="/search/group[@name='Group By...']/filter[@name='Account']" position="after">
                     <filter string="Activity" context="{'group_by':'activity'}" groups="base.group_extended" icon="terp-folder-green"/>
                 </xpath>
             </field>
