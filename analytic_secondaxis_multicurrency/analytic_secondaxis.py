@@ -47,13 +47,13 @@ class project_activity_al(models.Model):
     _inherit = "project.activity_al"
     _description = "Second Analytical Axes"
 
-    def _debit_credit_bal_qtty(self, cr, uid, ids, name, arg, context=None):
+    def _debit_credit_bal_qtty(self,  ids, name, arg, context=None):
         """Replace the original amount column by aa_amount_currency"""
         res = {}
         if context is None:
             context = {}
         child_ids = tuple(
-            self.search(cr, uid, [('parent_id', 'child_of', ids)]))
+            self.search( [('parent_id', 'child_of', ids)]))
         for i in child_ids:
             res[i] = {}
             for n in name:
@@ -94,7 +94,7 @@ class project_activity_al(models.Model):
         for ac_id, debit, credit, balance, quantity in cr.fetchall():
             res[ac_id] = {'debit': debit, 'credit': credit,
                           'balance': balance, 'quantity': quantity}
-        return self._compute_level_tree(cr, uid, ids, child_ids, res, [
+        return self._compute_level_tree( ids, child_ids, res, [
             'debit', 'credit', 'balance', 'quantity'
         ], context)
 

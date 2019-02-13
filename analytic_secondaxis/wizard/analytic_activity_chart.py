@@ -32,18 +32,18 @@ class activities_analytic_chart(osv.osv_memory):
         'to_date': fields.date('To'),
     }
 
-    def analytic_activities_chart_open_window(self, cr, uid, ids,
+    def analytic_activities_chart_open_window(self,  ids,
                                               context=None):
         mod_obj = self.pool.get('ir.model.data')
         act_obj = self.pool.get('ir.actions.act_window')
         result_context = {}
         if context is None:
             context = {}
-        result = mod_obj.get_object_reference(cr, uid, 'analytic_secondaxis',
+        result = mod_obj.get_object_reference( 'analytic_secondaxis',
                                               'action_activity_tree')
         rec_id = result and result[1] or False
-        result = act_obj.read(cr, uid, [rec_id], context=context)[0]
-        data = self.read(cr, uid, ids, [])[0]
+        result = act_obj.read( [rec_id], context=context)[0]
+        data = self.read( ids, [])[0]
         if data['from_date']:
             result_context.update({'from_date': data['from_date']})
         if data['to_date']:

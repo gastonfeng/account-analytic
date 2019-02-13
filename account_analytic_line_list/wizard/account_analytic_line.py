@@ -33,19 +33,19 @@ class AccountAnalyticViewLine(orm.TransientModel):
         'children': fields.boolean('With children'),
     }
 
-    def _append_childs(self, cr, uid, accounts, analytic_obj):
+    def _append_childs(self,  accounts, analytic_obj):
         for child in analytic_obj.child_complete_ids:
             accounts.append(child.id)
-            self._append_childs(cr, uid, accounts, child)
+            self._append_childs( accounts, child)
 
-    def open_account_analytic_lines(self, cr, uid, ids, context=None):
-        data = self.read(cr, uid, ids, [], context=context)[0]
+    def open_account_analytic_lines(self,  ids, context=None):
+        data = self.read( ids, [], context=context)[0]
         analytic_obj = self.pool.get('account.analytic.account')\
-                                .browse(cr, uid, [data['analytic_id'][0]])[0]
+                                .browse( [data['analytic_id'][0]])[0]
         accounts = []
         accounts.append(analytic_obj.id)
         if data['children'] == 1:
-            self._append_childs(cr, uid, accounts, analytic_obj)
+            self._append_childs( accounts, analytic_obj)
         res = {
             'domain': str([('account_id', 'in', accounts)]),
             'name': 'Analytic account lines',

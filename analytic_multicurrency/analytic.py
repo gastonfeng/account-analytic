@@ -27,12 +27,12 @@ import openerp.addons.decimal_precision as dp
 class account_analytic_account(orm.Model):
     _inherit = 'account.analytic.account'
 
-    def _debit_credit_bal_qtty(self, cr, uid, ids, field_list, arg,
+    def _debit_credit_bal_qtty(self,  ids, field_list, arg,
                                context=None):
         """Replace the original amount column by aa_amount_currency"""
         if context is None:
             context = {}
-        child_ids = self.search(cr, uid,
+        child_ids = self.search(
                                 [('parent_id', 'child_of', ids)],
                                 context=context)
         sums = {}
@@ -73,12 +73,12 @@ class account_analytic_account(orm.Model):
                            'credit': credit,
                            'balance': balance,
                            'quantity': quantity}
-        return self._compute_level_tree(cr, uid, ids, child_ids, sums,
+        return self._compute_level_tree( ids, child_ids, sums,
                                         ['debit', 'credit',
                                          'balance', 'quantity'],
                                         context)
 
-    def _set_company_currency(self, cr, uid, ids, name, value, arg,
+    def _set_company_currency(self,  ids, name, value, arg,
                               context=None):
         if isinstance(ids, (int, long)):
             ids = [ids]
@@ -90,13 +90,13 @@ class account_analytic_account(orm.Model):
         else:
             return False
 
-    def _currency(self, cr, uid, ids, field_name, arg, context=None):
+    def _currency(self,  ids, field_name, arg, context=None):
         result = {}
-        for rec in self.browse(cr, uid, ids, context=context):
+        for rec in self.browse( ids, context=context):
             result[rec.id] = rec.company_id.currency_id.id
         return result
 
-    def _get_analytic_account(self, cr, uid, ids, context=None):
+    def _get_analytic_account(self,  ids, context=None):
         """Copied from the original in the core.
 
         Store triggers cannot be overridden because of
@@ -106,8 +106,8 @@ class account_analytic_account(orm.Model):
         company_obj = self.pool.get('res.company')
         analytic_obj = self.pool.get('account.analytic.account')
         accounts = []
-        for company in company_obj.browse(cr, uid, ids, context=context):
-            accounts += analytic_obj.search(cr, uid, [
+        for company in company_obj.browse( ids, context=context):
+            accounts += analytic_obj.search( [
                 ('company_id', '=', company.id)
             ])
         return accounts
@@ -148,12 +148,12 @@ class account_analytic_account(orm.Model):
     # We remove the currency constraint cause we want to let the user
     # choose another currency than the company one. Don't be able to
     # override properly this constraints :(
-    def check_currency(self, cr, uid, ids, context=None):
+    def check_currency(self,  ids, context=None):
         return True
 
-    def check_recursion(self, cr, uid, ids, parent=None):
+    def check_recursion(self,  ids, parent=None):
         return super(account_analytic_account, self)._check_recursion(
-            cr, uid, ids, parent=parent)
+             ids, parent=parent)
 
     _constraints = [
         (check_recursion,

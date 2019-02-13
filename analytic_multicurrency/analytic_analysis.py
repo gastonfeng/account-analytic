@@ -27,9 +27,9 @@ import openerp.addons.decimal_precision as dp
 class account_analytic_account(orm.Model):
     _inherit = "account.analytic.account"
 
-    def _ca_invoiced_calc(self, cr, uid, ids, name, arg, context=None):
+    def _ca_invoiced_calc(self,  ids, name, arg, context=None):
         """Replace the original amount column by aa_amount_currency"""
-        child_ids = self.search(cr, uid,
+        child_ids = self.search(
                                 [('parent_id', 'child_of', ids)],
                                 context=context)
         sums = {}
@@ -48,17 +48,17 @@ class account_analytic_account(orm.Model):
         cr.execute(sql, (tuple(child_ids),))
 
         precision_obj = self.pool.get('decimal.precision')
-        precision = precision_obj.precision_get(cr, uid, 'Account')
+        precision = precision_obj.precision_get( 'Account')
         for account_id, row_sum in cr.fetchall():
             sums[account_id][name] = round(row_sum, precision)
-        data = self._compute_level_tree(cr, uid, ids, child_ids,
+        data = self._compute_level_tree( ids, child_ids,
                                         sums, [name], context=context)
         return dict((account_id, row[name]) for account_id, row
                     in data.iteritems())
 
-    def _total_cost_calc(self, cr, uid, ids, name, arg, context=None):
+    def _total_cost_calc(self,  ids, name, arg, context=None):
         """Replace the original amount column by aa_amount_currency"""
-        child_ids = self.search(cr, uid,
+        child_ids = self.search(
                                 [('parent_id', 'child_of', ids)],
                                 context=context)
         sums = {}
@@ -77,10 +77,10 @@ class account_analytic_account(orm.Model):
         cr.execute(sql, (tuple(child_ids),))
 
         precision_obj = self.pool.get('decimal.precision')
-        precision = precision_obj.precision_get(cr, uid, 'Account')
+        precision = precision_obj.precision_get( 'Account')
         for account_id, row_sum in cr.fetchall():
             sums[account_id][name] = round(row_sum, precision)
-        data = self._compute_level_tree(cr, uid, ids, child_ids,
+        data = self._compute_level_tree( ids, child_ids,
                                         sums, [name], context)
         return dict((account_id, row[name]) for account_id, row
                     in data.iteritems())
