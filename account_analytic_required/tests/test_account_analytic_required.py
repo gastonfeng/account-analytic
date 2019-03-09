@@ -2,8 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl)
 from datetime import datetime
 
-from odoo.tests import common
 from odoo import exceptions
+from odoo.tests import common
 
 
 class TestAccountAnalyticRequired(common.SavepointCase):
